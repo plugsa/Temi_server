@@ -6,20 +6,11 @@ app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+
 io.on('connection', (socket) => {
   console.log('a user connected');
-  socket.on('chat_message3', (msg) => {
-    console.log('right: ');
-    io.emit('robot_goright');
-  });
-  socket.on('chat_message2', (msg) => {
-    console.log('Left ' + msg);
-    io.emit('robot_goleft');
-  });
-  socket.on('chat_message1', (msg) => {
-    console.log('Forward ');
-    io.emit('robot_gofront2');
-  });
+  
+  
   socket.on('robot_savea', (msg) => {
     console.log('SaveA ');
     io.emit('robot_savea');
@@ -27,6 +18,18 @@ io.on('connection', (socket) => {
   socket.on('robot_saveb', (msg) => {
     console.log('SaveB ');
     io.emit('robot_saveb');
+  });
+  socket.on('robot_savec', (msg) => {
+    console.log('SaveC ');
+    io.emit('robot_savec');
+  });
+  socket.on('robot_saved', (msg) => {
+    console.log('SaveD ');
+    io.emit('robot_saved');
+  });
+  socket.on('robot_savee', (msg) => {
+    console.log('SaveE ');
+    io.emit('robot_savee');
   });
   socket.on('robot_spin', (msg) => {
     console.log('Spin ');
@@ -36,40 +39,72 @@ io.on('connection', (socket) => {
     console.log('welcome ');
     io.emit('robot_welcome');
   });
-  socket.on('robot_welcome_ns', (msg) => {
-    console.log('welcome_ns ');
-    io.emit('robot_welcome_ns');
-  });
   socket.on('robot_thank', (msg) => {
-    console.log('thank ');
+    console.log('Thank ');
     io.emit('robot_thank');
   });
-  socket.on('robot_thank_ns', (msg) => {
-    console.log('thank_ns ');
-    io.emit('robot_thank_ns');
-  });
-  socket.on('robot_stop', (msg) => {
-    console.log('Stop');
-    io.emit('robot_stop');
+  socket.on('robot_socket', (msg) => {
+    console.log('Socket');
+    io.emit('robot_socket');
   });
   socket.on('robot_face', (msg) => {
-    console.log('face ');
+    console.log('Face');
     io.emit('robot_face');
   });
-  socket.on('robot_dance', (msg) => {
-    console.log('dance ');
-    io.emit('robot_dance');
+  socket.on('robot_order', (msg) => {
+    console.log('Order');
+    io.emit('robot_order');
   });
-  socket.on('robot_tilt', (msg) => {
-    console.log('tilt ');
-    io.emit('robot_tilt');
+  socket.on('robot_mainpage', (msg) => {
+    console.log('Mainpage');
+    io.emit('robot_mainpage');
   });
   socket.on('robot_Home', (msg) => {
     console.log('Home ');
     io.emit('robot_Home');
   });
+
 });
 
-http.listen(4000, () => {
-  console.log('listening on *:4000');
+
+
+class Queue {
+  constructor() {
+    this.items = [];
+  }
+
+  enqueue(element) {
+    this.items.push(element);
+    // ส่งคำสั่ง enqueue ไปยัง server Socket.io
+    socket.emit('enqueue', element);
+    io.emit('enqueue');
+  }
+  
+
+  dequeue() {
+    if (this.isEmpty()) {
+      return 'Queue is empty'; 
+    }
+    // นำรายการออกจากคิว
+    const item = this.items.shift();
+    // ส่งคำสั่ง dequeue ไปยัง server Socket.io
+    socket.emit('dequeue');
+    return item;
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
+
+  getQueue() {
+    return this.items;
+  }
+}
+
+
+
+
+http.listen(3000, () => {
+  console.log('listening on *:3000');
 });
+
