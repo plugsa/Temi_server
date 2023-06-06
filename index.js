@@ -68,38 +68,44 @@ io.on('connection', (socket) => {
 
 
 
-class Queue {
-  constructor() {
-    this.items = [];
-  }
+// class Queue {
+//   constructor() {
+//     this.items = [];
+//   }
 
-  enqueue(element) {
-    this.items.push(element);
-    // ส่งคำสั่ง enqueue ไปยัง server Socket.io
-    socket.emit('enqueue', element);
-    io.emit('enqueue');
-  }
+//   enqueue(element) {
+//     this.items.push(element);
+//     // ส่งคำสั่ง enqueue ไปยัง server Socket.io
+//     socket.emit('robot_socket', element);
+//     io.emit('robot_socket');
+
+//     this.items.push(element);
+//     // ส่งคำสั่ง enqueue ไปยัง server Socket.io
+//     socket.emit('robot_mainpage', element);
+//     io.emit('robot_mainpage');
+
+//   }
   
 
-  dequeue() {
-    if (this.isEmpty()) {
-      return 'Queue is empty'; 
-    }
-    // นำรายการออกจากคิว
-    const item = this.items.shift();
-    // ส่งคำสั่ง dequeue ไปยัง server Socket.io
-    socket.emit('dequeue');
-    return item;
-  }
+//   dequeue() {
+//     if (this.isEmpty()) {
+//       return 'Queue is empty'; 
+//     }
+//     // นำรายการออกจากคิว
+//     const item = this.items.shift();
+//     // ส่งคำสั่ง dequeue ไปยัง server Socket.io
+//     socket.emit('dequeue');
+//     return item;
+//   }
 
-  isEmpty() {
-    return this.items.length === 0;
-  }
+//   isEmpty() {
+//     return this.items.length === 0;
+//   }
 
-  getQueue() {
-    return this.items;
-  }
-}
+//   getQueue() {
+//     return this.items;
+//   }
+// }
 
 
 
